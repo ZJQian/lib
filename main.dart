@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import './pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'provide/currentIndex_provide.dart';
+import 'package:fluro/fluro.dart';
+import 'routes/routes.dart';
+import 'routes/application.dart';
 
 void main() {
   var currentIndex = CurrentIndexProvide();
@@ -15,18 +18,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final router = Router(); //路由初始化
+    Routes.configureRoutes(router);
+    Application.router = router;
+
     return MaterialApp(
       title: 'Flutter Demo',
+      onGenerateRoute: Application.router.generator,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: IndexPage(),
