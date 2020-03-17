@@ -6,6 +6,8 @@ import '../model/home/ganktoday_model.dart';
 import '../config/device_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../routes/application.dart';
+import '../routes/routes.dart';
+import '../views/home/gank_item.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,6 +31,14 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("干货集中营"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Routes.navigateTo(context, Routes.searchPage);
+              },
+            )
+          ],
           bottom: TabBar(
             tabs: this
                 .gankCategories
@@ -45,62 +55,11 @@ class _HomePageState extends State<HomePage> {
               .map((f) => ListView.builder(
                     itemCount: f.length,
                     itemBuilder: (context, index) {
-                      return _itemBuilder(f[index]);
+                      return gankItem(context, f[index]);
                     },
                   ))
               .toList(),
         ),
-      ),
-    );
-  }
-
-  _itemBuilder(GankItemModel itemModel) {
-    return InkWell(
-      onTap: () {
-        Application.router.navigateTo(context, '/web');
-      },
-      child: Container(
-        width: screenWidth,
-        padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(itemModel.desc),
-            Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.person,
-                          color: Colors.blue,
-                        ),
-                        Text(itemModel.who)
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.timer,
-                          color: Colors.blue,
-                        ),
-                        Text(itemModel.publishedAt.substring(0, 10))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            border:
-                Border(bottom: BorderSide(width: 1, color: Color(0xffe5e5e5)))),
       ),
     );
   }

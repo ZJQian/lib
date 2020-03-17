@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import './pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'provide/currentIndex_provide.dart';
+import 'provide/home/search_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routes/routes.dart';
 import 'routes/application.dart';
 
 void main() {
-  var currentIndex = CurrentIndexProvide();
+  var currentIndexProvide = CurrentIndexProvide();
+  var searchTextProvide = SearchProvide();
   var providers = Providers();
-  providers.provide(Provider<CurrentIndexProvide>.value(currentIndex));
+  providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
+  providers.provide(Provider<SearchProvide>.value(searchTextProvide));
 
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
