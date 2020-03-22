@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../service/service_method.dart';
-import '../../config/service_url.dart';
 import 'package:provide/provide.dart';
 import '../../provide/home/search_provide.dart';
 import '../../views/home/gank_item.dart';
@@ -10,7 +8,6 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();
-    final searchProvide = Provide.value<SearchProvide>(context);
     return Scaffold(
       appBar: AppBar(
         title: buildTextField(context, controller),
@@ -37,10 +34,5 @@ class SearchPage extends StatelessWidget {
         Provide.value<SearchProvide>(context).searchResults(text);
       },
     );
-  }
-
-  void _getData(String text) async {
-    String url = gankSearch + "/$text/category/all/count/50/page/1";
-    await get(url).then((val) {});
   }
 }

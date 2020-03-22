@@ -1,8 +1,6 @@
 import "package:dio/dio.dart";
 import 'dart:async';
 import 'dart:io';
-import '../config/service_url.dart';
-import 'package:device_info/device_info.dart';
 
 enum MethodType {
   POST,
@@ -63,8 +61,8 @@ Future post(url, {Map formData}) {
 class RequestConfig {
   //公共参数
   Future<Map> _defaultParams() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     Map<String, dynamic> params = {};
     // params["device_id"] = "FFF9922C-473A-4AF7-9784-A81022401647";
     // params["target"] = "U17_3.0";

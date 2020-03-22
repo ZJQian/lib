@@ -6,11 +6,16 @@ import '../../config/service_url.dart';
 class SearchProvide with ChangeNotifier {
   List<GankSearchItemModel> list = [];
   searchResults(String text) async {
-    String url = gankSearch + "/$text/category/all/count/50/page/1";
-    await get(url).then((val) {
-      GankSearchModel model = GankSearchModel.fromJson(val);
-      list = model.results;
+    if (text.length == 0) {
+      list = [];
       notifyListeners();
-    });
+    } else {
+      String url = gankSearch + "/$text/category/all/count/50/page/1";
+      await get(url).then((val) {
+        GankSearchModel model = GankSearchModel.fromJson(val);
+        list = model.results;
+        notifyListeners();
+      });
+    }
   }
 }
