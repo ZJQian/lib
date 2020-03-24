@@ -15,6 +15,10 @@ Future request(url, methodType, {Map formData}) async {
     Dio dio = new Dio();
     dio.options.contentType =
         ContentType.parse("application/x-www-form-urlencoded").toString();
+    dio.options.headers = {
+      "app_id": "qgmkqmgifdrhrlkj",
+      "app_secret": "VVRQU1BrTTdEcWdDTGM1VklkUUs3UT09"
+    };
     var params = await RequestConfig()._defaultParams();
 
     if (methodType == MethodType.POST) {

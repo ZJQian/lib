@@ -3,6 +3,7 @@ import './pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'provide/currentIndex_provide.dart';
 import 'provide/home/search_provide.dart';
+import 'provide/home/lottery_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routes/routes.dart';
 import 'routes/application.dart';
@@ -10,9 +11,11 @@ import 'routes/application.dart';
 void main() {
   var currentIndexProvide = CurrentIndexProvide();
   var searchTextProvide = SearchProvide();
+  var lotteryProvide = LotteryProvide();
   var providers = Providers();
   providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
   providers.provide(Provider<SearchProvide>.value(searchTextProvide));
+  providers.provide(Provider<LotteryProvide>.value(lotteryProvide));
 
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }

@@ -12,7 +12,7 @@ class IndexPage extends StatelessWidget {
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), title: Text("首页")),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search), title: Text("发现")),
+        icon: Icon(CupertinoIcons.search), title: Text("工具")),
     BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.bookmark), title: Text("书架")),
     BottomNavigationBarItem(
