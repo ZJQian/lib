@@ -8,6 +8,8 @@ class Routes {
   static String root = '/'; //根目录
   static String webPage = '/web'; //详情页面
   static String searchPage = '/search'; //搜索页面
+  static String lotteryDetailPage = '/lotteryDetail'; //搜索页面
+
   //静态方法
   static void configureRoutes(Router router) {
     _router = router;
@@ -21,6 +23,7 @@ class Routes {
 
     router.define(webPage, handler: webHandler);
     router.define(searchPage, handler: searchHandler);
+    router.define(lotteryDetailPage, handler: lotteryDetailHandler);
   }
 
   //路由跳转

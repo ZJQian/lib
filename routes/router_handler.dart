@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import '../pages/web_page.dart';
 import '../pages/home/search_page.dart';
+import '../pages/discover/lottery_detail_page.dart';
+import 'dart:convert' as convert;
 
 //web页
 Handler webHandler = Handler(
@@ -14,4 +16,12 @@ Handler webHandler = Handler(
 Handler searchHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return SearchPage();
+});
+
+//彩票详情
+Handler lotteryDetailHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String data = params['dataStr']?.first;
+  Map<String, dynamic> map = convert.jsonDecode(data);
+  return LotteryDetailPage(dataDic: map);
 });

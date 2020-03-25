@@ -1,72 +1,67 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../config/device_config.dart';
-import '../provide/home/lottery_provide.dart';
-import 'package:provide/provide.dart';
-import '../config/service_url.dart';
-import '../service/service_method.dart';
+import '../routes/routes.dart';
+import 'dart:convert' as convert;
 
-class DiscoverPage extends StatefulWidget {
-  @override
-  _State createState() => _State();
-}
-
-class _State extends State<DiscoverPage> {
-  List lotteryTypeList = [];
-  List<Map<String, dynamic>> dataList = [
-    {'name': '彩票'}
+class DiscoverPage extends StatelessWidget {
+  final List<Map<String, dynamic>> dataList = [
+    {
+      'name': '彩票',
+      'list': [
+        {'name': '双色球', 'type': 'ssq'},
+        {'name': '七乐彩', 'type': 'qlc'},
+        {'name': '福彩3D', 'type': 'fc3d'},
+        {'name': '超级大乐透', 'type': 'cjdlt'},
+        {'name': '七星彩', 'type': 'qxc'},
+        {'name': '排列3', 'type': 'pl3'},
+        {'name': '排列5', 'type': 'pl5'},
+      ]
+    }
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getLotteryTypes();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('工具箱'),
-        ),
-        body: ListView.builder(
-          itemCount: dataList.length,
-          itemBuilder: (context, index) {
-            return _itemBuilder(dataList[index], index);
-          },
-        ));
+      appBar: AppBar(
+        title: Text("小工具"),
+      ),
+      body: ListView.builder(
+        itemCount: dataList.length,
+        itemBuilder: (context, index) {
+          return _itemBuilder(context, dataList[index]);
+        },
+      ),
+    );
   }
 
-  Widget _itemBuilder(Map<String, dynamic> data, int index) {
-    // List list = (index == 0) ? lotteryTypeList : data['list'];
-    if (data['list'] == null) {
-      return ListTile(
-        title: Text(data['name']),
-      );
+  Widget _itemBuilder(BuildContext context, Map<String, dynamic> data) {
+    List list = data['list'];
+    if (list == null) {
+      return Text(data['name']);
     } else {
       return ExpansionTile(
-        title: Text("hh"),
-        children: lotteryTypeList.map((f) => _subItemBuilder(f)).toList(),
+        title: Text(data['name']),
+        children: list.map((f) => _subItemBuilder(context, f)).toList(),
       );
     }
   }
 
-  Widget _subItemBuilder(Map<String, dynamic> map) {
-    return Container(
-      child: Text("a"),
-      padding: EdgeInsets.only(left: 30, top: 10, bottom: 10, right: 10),
-      width: screenWidth,
-      decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Color(0xffe5e5e5), width: 1))),
+  Widget _subItemBuilder(BuildContext context, Map<String, String> data) {
+    return InkWell(
+      onTap: () {
+        Routes.navigateTo(context, Routes.lotteryDetailPage,
+            params: {'dataStr': convert.jsonEncode(data)});
+      },
+      child: Container(
+        width: screenWidth,
+        margin: EdgeInsets.only(left: nWidth(60)),
+        padding: EdgeInsets.only(
+            top: nWidth(20), bottom: nWidth(20), right: nWidth(20)),
+        child: Text(data['name']),
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black12, width: 1))),
+      ),
     );
-  }
-
-  getLotteryTypes() async {
-    await get(lotteryTypes).then((val) {
-      setState(() {
-        lotteryTypeList = val['data'];
-      });
-    });
   }
 }
