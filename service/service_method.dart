@@ -40,7 +40,7 @@ Future request(url, methodType, {Map formData}) async {
         response = await dio.get(url, queryParameters: params);
       }
     }
-    print(params);
+    print("请求参数 ======== > $params");
     if (response.statusCode == 200) {
       print("返回数据 ========= > ${response.data}");
       return response.data;
@@ -48,7 +48,7 @@ Future request(url, methodType, {Map formData}) async {
       throw Exception('后端接口出现异常，请检测代码和服务器情况.........');
     }
   } catch (e) {
-    return print('ERROR:======>${e}');
+    return print('ERROR:====== > $e');
   }
 }
 

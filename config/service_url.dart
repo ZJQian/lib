@@ -8,3 +8,5 @@ String gankToday = baseUrlGank + "/today";
 String gankSearch = baseUrlGank + "/search/query";
 //彩种
 String lotteryTypes = baseUrlMxnzp + "/lottery/common/types";
+//获取最新通用中奖号码信息
+String lotteryLatest = baseUrlMxnzp + "/lottery/common/latest";

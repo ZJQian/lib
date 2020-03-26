@@ -17,6 +17,13 @@ class DiscoverPage extends StatelessWidget {
         {'name': '排列3', 'type': 'pl3'},
         {'name': '排列5', 'type': 'pl5'},
       ]
+    },
+    {
+      'name': '二维码',
+      'list': [
+        {'name': '普通二维码'},
+        {'name': '带logo二维码'}
+      ]
     }
   ];
 
@@ -29,29 +36,35 @@ class DiscoverPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: dataList.length,
         itemBuilder: (context, index) {
-          return _itemBuilder(context, dataList[index]);
+          return _itemBuilder(context, dataList[index],index);
         },
       ),
     );
   }
 
-  Widget _itemBuilder(BuildContext context, Map<String, dynamic> data) {
+  Widget _itemBuilder(BuildContext context, Map<String, dynamic> data, int index) {
     List list = data['list'];
     if (list == null) {
       return Text(data['name']);
     } else {
       return ExpansionTile(
         title: Text(data['name']),
-        children: list.map((f) => _subItemBuilder(context, f)).toList(),
+        children: list.map((f) => _subItemBuilder(context, f, index)).toList(),
       );
     }
   }
 
-  Widget _subItemBuilder(BuildContext context, Map<String, String> data) {
+  Widget _subItemBuilder(BuildContext context, Map<String, String> data, int index) {
     return InkWell(
       onTap: () {
-        Routes.navigateTo(context, Routes.lotteryDetailPage,
+        if (index == 0) {
+
+          Routes.navigateTo(context, Routes.lotteryDetailPage,
             params: {'dataStr': convert.jsonEncode(data)});
+        }else if (index == 1) {
+
+        }
+        
       },
       child: Container(
         width: screenWidth,
