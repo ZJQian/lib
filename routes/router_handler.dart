@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:flutter_project/provide/discover/qrcode_provide.dart';
 import '../pages/web_page.dart';
 import '../pages/home/search_page.dart';
 import '../pages/discover/qrcode_detail_page.dart';
@@ -30,5 +31,14 @@ Handler lotteryDetailHandler = Handler(
 //二维码
 Handler qrcodeHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return QrCodeDetailPage();
+
+  String type = params['type']?.first;
+  QrcodeType codeType = QrcodeType.single;
+  if (type == 'single') {
+    codeType = QrcodeType.single;
+  }else {
+    codeType = QrcodeType.logo;
+  }
+  
+  return QrCodeDetailPage(qrcodeType: codeType,);
 });

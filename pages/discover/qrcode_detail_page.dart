@@ -4,8 +4,12 @@ import '../../config/device_config.dart';
 import '../../provide/discover/qrcode_provide.dart';
 import 'package:provide/provide.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../config/tool.dart';
 
 class QrCodeDetailPage extends StatelessWidget {
+  final QrcodeType qrcodeType;
+  QrCodeDetailPage({Key key, @required this.qrcodeType}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final _editController = TextEditingController();
@@ -34,9 +38,16 @@ class QrCodeDetailPage extends StatelessWidget {
                     child: RaisedButton(
                       child: Text("生成"),
                       onPressed: () {
-                        Provide.value<QrcodeProvide>(context).createQrcode(
-                            QrcodeType.single,
-                            {'content': _editController.text, 'type': 0});
+                        if (_editController.text == null ||
+                            _editController.text.length == 0) {
+                          ToolManager.showToast("内容不能为空");
+                        } else {
+                          if (qrcodeType == QrcodeType.single) {
+                            Provide.value<QrcodeProvide>(context).createQrcode(
+                                QrcodeType.single,
+                                {'content': _editController.text, 'type': 0});
+                          } else {}
+                        }
                       },
                     ),
                   )
@@ -47,7 +58,7 @@ class QrCodeDetailPage extends StatelessWidget {
                 fit: BoxFit.fitWidth,
                 placeholder: (context, url) => CircularProgressIndicator(),
                 imageUrl: provide.qrcodeImgUrl,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => null,
               )
             ],
           );

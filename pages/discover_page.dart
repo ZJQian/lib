@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/provide/discover/qrcode_provide.dart';
 import '../config/device_config.dart';
 import '../routes/routes.dart';
 import 'dart:convert' as convert;
@@ -21,8 +22,8 @@ class DiscoverPage extends StatelessWidget {
     {
       'name': '二维码',
       'list': [
-        {'name': '普通二维码'},
-        {'name': '带logo二维码'}
+        {'name': '普通二维码','type': 'single'},
+        {'name': '带logo二维码', 'type': 'logo'}
       ]
     }
   ];
@@ -63,7 +64,7 @@ class DiscoverPage extends StatelessWidget {
           Routes.navigateTo(context, Routes.lotteryDetailPage,
               params: {'dataStr': convert.jsonEncode(data)});
         } else if (index == 1) {
-          Routes.navigateTo(context, Routes.qrcodeDetailpage);
+          Routes.navigateTo(context, Routes.qrcodeDetailpage,params: {'type': data['type'].toString()});
         }
       },
       child: Container(
