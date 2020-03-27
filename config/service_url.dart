@@ -10,3 +10,7 @@ String gankSearch = baseUrlGank + "/search/query";
 String lotteryTypes = baseUrlMxnzp + "/lottery/common/types";
 //获取最新通用中奖号码信息
 String lotteryLatest = baseUrlMxnzp + "/lottery/common/latest";
+//单一二维码
+String qrcodeSingle = baseUrlMxnzp + "/qrcode/create/single";
+//带logo二维码
+String qrcodeLogo = baseUrlMxnzp + "/qrcode/create/logo";

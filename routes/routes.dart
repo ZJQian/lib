@@ -9,6 +9,7 @@ class Routes {
   static String webPage = '/web'; //详情页面
   static String searchPage = '/search'; //搜索页面
   static String lotteryDetailPage = '/lotteryDetail'; //搜索页面
+  static String qrcodeDetailpage = '/qrcodeDetail'; //二维码页面
 
   //静态方法
   static void configureRoutes(Router router) {
@@ -24,6 +25,7 @@ class Routes {
     router.define(webPage, handler: webHandler);
     router.define(searchPage, handler: searchHandler);
     router.define(lotteryDetailPage, handler: lotteryDetailHandler);
+    router.define(qrcodeDetailpage, handler: qrcodeHandler);
   }
 
   //路由跳转

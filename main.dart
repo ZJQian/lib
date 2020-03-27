@@ -4,6 +4,7 @@ import 'package:provide/provide.dart';
 import 'provide/currentIndex_provide.dart';
 import 'provide/home/search_provide.dart';
 import 'provide/home/lottery_provide.dart';
+import 'provide/discover/qrcode_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routes/routes.dart';
 import 'routes/application.dart';
@@ -12,10 +13,12 @@ void main() {
   var currentIndexProvide = CurrentIndexProvide();
   var searchTextProvide = SearchProvide();
   var lotteryProvide = LotteryProvide();
+  var qrcodeProvide = QrcodeProvide();
   var providers = Providers();
   providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
   providers.provide(Provider<SearchProvide>.value(searchTextProvide));
   providers.provide(Provider<LotteryProvide>.value(lotteryProvide));
+  providers.provide(Provider<QrcodeProvide>.value(qrcodeProvide));
 
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }

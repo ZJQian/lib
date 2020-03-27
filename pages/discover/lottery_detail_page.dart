@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import '../../service/service_method.dart';
 import '../../config/service_url.dart';
 
-
 class LotteryDetailPage extends StatefulWidget {
-
   LotteryDetailPage({Key key, @required this.dataDic}) : super(key: key);
   final Map<String, dynamic> dataDic;
 
@@ -13,9 +11,7 @@ class LotteryDetailPage extends StatefulWidget {
 }
 
 class _State extends State<LotteryDetailPage> {
-
-  String lotteryInfo = "";
-
+  Map<String, dynamic> lotteryInfo = {};
 
   @override
   void initState() {
@@ -32,16 +28,23 @@ class _State extends State<LotteryDetailPage> {
       ),
       body: Center(
         child: Container(
-          child: Text(lotteryInfo),
+          child: Column(
+            children: <Widget>[
+              Text("期   数：${lotteryInfo['expect']}"),
+              Text("开奖结果：${lotteryInfo['openCode']}"),
+              Text("开奖时间：${lotteryInfo['time']}"),
+            ],
+          ),
         ),
       ),
     );
   }
 
   _getData() async {
-    await get(lotteryLatest,formData: {'code':widget.dataDic['type']}).then((val) {
+    await get(lotteryLatest, formData: {'code': widget.dataDic['type']})
+        .then((val) {
       setState(() {
-        lotteryInfo = val['data']['openCode'];
+        lotteryInfo = val['data'];
       });
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import '../pages/web_page.dart';
 import '../pages/home/search_page.dart';
+import '../pages/discover/qrcode_detail_page.dart';
 import '../pages/discover/lottery_detail_page.dart';
 import 'dart:convert' as convert;
 
@@ -24,4 +25,10 @@ Handler lotteryDetailHandler = Handler(
   String data = params['dataStr']?.first;
   Map<String, dynamic> map = convert.jsonDecode(data);
   return LotteryDetailPage(dataDic: map);
+});
+
+//二维码
+Handler qrcodeHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return QrCodeDetailPage();
 });

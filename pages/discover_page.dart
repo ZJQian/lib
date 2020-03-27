@@ -36,13 +36,14 @@ class DiscoverPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: dataList.length,
         itemBuilder: (context, index) {
-          return _itemBuilder(context, dataList[index],index);
+          return _itemBuilder(context, dataList[index], index);
         },
       ),
     );
   }
 
-  Widget _itemBuilder(BuildContext context, Map<String, dynamic> data, int index) {
+  Widget _itemBuilder(
+      BuildContext context, Map<String, dynamic> data, int index) {
     List list = data['list'];
     if (list == null) {
       return Text(data['name']);
@@ -54,17 +55,16 @@ class DiscoverPage extends StatelessWidget {
     }
   }
 
-  Widget _subItemBuilder(BuildContext context, Map<String, String> data, int index) {
+  Widget _subItemBuilder(
+      BuildContext context, Map<String, String> data, int index) {
     return InkWell(
       onTap: () {
         if (index == 0) {
-
           Routes.navigateTo(context, Routes.lotteryDetailPage,
-            params: {'dataStr': convert.jsonEncode(data)});
-        }else if (index == 1) {
-
+              params: {'dataStr': convert.jsonEncode(data)});
+        } else if (index == 1) {
+          Routes.navigateTo(context, Routes.qrcodeDetailpage);
         }
-        
       },
       child: Container(
         width: screenWidth,
