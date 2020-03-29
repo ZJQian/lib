@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/provide/app_theme_provide.dart';
+import 'package:flutter_project/provide/user/settings_provide.dart';
 import './pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'provide/currentIndex_provide.dart';
@@ -14,11 +16,15 @@ void main() {
   var searchTextProvide = SearchProvide();
   var lotteryProvide = LotteryProvide();
   var qrcodeProvide = QrcodeProvide();
+  var settingsProvide = SettingsProvide();
+  var appThemeProvide = AppThemeProvide();
   var providers = Providers();
+  providers.provide(Provider<AppThemeProvide>.value(appThemeProvide));
   providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
   providers.provide(Provider<SearchProvide>.value(searchTextProvide));
   providers.provide(Provider<LotteryProvide>.value(lotteryProvide));
   providers.provide(Provider<QrcodeProvide>.value(qrcodeProvide));
+  providers.provide(Provider<SettingsProvide>.value(settingsProvide));
 
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
@@ -31,13 +37,15 @@ class MyApp extends StatelessWidget {
     Routes.configureRoutes(router);
     Application.router = router;
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      onGenerateRoute: Application.router.generator,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: IndexPage(),
+    return Provide<AppThemeProvide>(
+      builder: (context, child, provide) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          onGenerateRoute: Application.router.generator,
+          theme: Provide.value<AppThemeProvide>(context).themeData,
+          home: IndexPage(),
+        );
+      },
     );
   }
 }

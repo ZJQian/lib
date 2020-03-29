@@ -4,6 +4,7 @@ import '../../model/home/ganksearch_model.dart';
 import '../../routes/routes.dart';
 import '../../config/device_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../config/color_config.dart';
 
 //干货列表item
 Widget gankItem(BuildContext context, GankItemModel itemModel) {
@@ -28,9 +29,12 @@ Widget gankItem(BuildContext context, GankItemModel itemModel) {
                     children: <Widget>[
                       Icon(
                         Icons.person,
-                        color: Colors.blue,
+                        color: ColorManager.colorAppTheme(context),
                       ),
-                      Text(itemModel.who)
+                      Container(
+                        width: nWidth(200),
+                        child: Text(itemModel.who)
+                      )
                     ],
                   ),
                 ),
@@ -40,7 +44,7 @@ Widget gankItem(BuildContext context, GankItemModel itemModel) {
                     children: <Widget>[
                       Icon(
                         Icons.timer,
-                        color: Colors.blue,
+                        color: ColorManager.colorAppTheme(context),
                       ),
                       Text(itemModel.publishedAt.substring(0, 10))
                     ],
@@ -81,9 +85,12 @@ Widget gankSearchItem(BuildContext context, GankSearchItemModel itemModel) {
                     children: <Widget>[
                       Icon(
                         Icons.person,
-                        color: Colors.blue,
+                        color: ColorManager.colorAppTheme(context),
                       ),
-                      Text(itemModel.who)
+                      Container(
+                        width: nWidth(200),
+                        child: Text(itemModel.who)
+                      )
                     ],
                   ),
                 ),
@@ -93,7 +100,7 @@ Widget gankSearchItem(BuildContext context, GankSearchItemModel itemModel) {
                     children: <Widget>[
                       Icon(
                         Icons.timer,
-                        color: Colors.blue,
+                        color: ColorManager.colorAppTheme(context),
                       ),
                       Text(itemModel.publishedAt.substring(0, 10))
                     ],

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/config/color_config.dart';
 import 'home_page.dart';
 import 'library_page.dart';
 import 'discover_page.dart';
@@ -9,6 +10,7 @@ import 'package:provide/provide.dart';
 import '../provide/currentIndex_provide.dart';
 
 class IndexPage extends StatelessWidget {
+
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), title: Text("首页")),
     BottomNavigationBarItem(
@@ -36,12 +38,13 @@ class IndexPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           bottomNavigationBar: CupertinoTabBar(
-            backgroundColor: Colors.white,
+            // backgroundColor: Colors.white,
             currentIndex: currentIndex,
             items: bottomTabs,
             onTap: (index) {
               Provide.value<CurrentIndexProvide>(context).changeIndex(index);
             },
+            activeColor: ColorManager.colorAppTheme(context),
           ),
           body: IndexedStack(
             index: currentIndex,

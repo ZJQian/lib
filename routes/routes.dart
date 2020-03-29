@@ -10,6 +10,9 @@ class Routes {
   static String searchPage = '/search'; //搜索页面
   static String lotteryDetailPage = '/lotteryDetail'; //搜索页面
   static String qrcodeDetailpage = '/qrcodeDetail'; //二维码页面
+  static String settingsPage = '/settingsPage'; //设置页面
+  static String themePage = '/themePage'; //皮肤页面
+  static String welfarePage = '/welfarePage'; //福利页面
 
   //静态方法
   static void configureRoutes(Router router) {
@@ -26,12 +29,15 @@ class Routes {
     router.define(searchPage, handler: searchHandler);
     router.define(lotteryDetailPage, handler: lotteryDetailHandler);
     router.define(qrcodeDetailpage, handler: qrcodeHandler);
+    router.define(settingsPage, handler: settingsHandler);
+    router.define(themePage, handler: themeHandler);
+    router.define(welfarePage, handler: welfareHandler);
   }
 
   //路由跳转
   static navigateTo(BuildContext context, String path,
       {Map<String, dynamic> params,
-      TransitionType transition = TransitionType.native}) {
+      TransitionType transition = TransitionType.inFromRight}) {
     String query = "";
     int index = 0;
     if (params != null) {

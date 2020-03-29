@@ -22,10 +22,11 @@ class DiscoverPage extends StatelessWidget {
     {
       'name': '二维码',
       'list': [
-        {'name': '普通二维码','type': 'single'},
+        {'name': '普通二维码', 'type': 'single'},
         {'name': '带logo二维码', 'type': 'logo'}
       ]
-    }
+    },
+    {'name': '福利','type': 'welfare'}
   ];
 
   @override
@@ -47,10 +48,29 @@ class DiscoverPage extends StatelessWidget {
       BuildContext context, Map<String, dynamic> data, int index) {
     List list = data['list'];
     if (list == null) {
-      return Text(data['name']);
+      return InkWell(
+          onTap: () {
+            if (data['type'] == 'welfare') {
+              Routes.navigateTo(context, Routes.welfarePage);
+            }
+          },
+          child: Container(
+            width: screenWidth,
+            padding: EdgeInsets.all(nWidth(30)),
+            child: Text(
+              data['name'],
+              style: TextStyle(fontSize: nFontSize(30)),
+            ),
+          ));
     } else {
       return ExpansionTile(
-        title: Text(data['name']),
+        title: Container(
+          width: screenWidth,
+          child: Text(
+            data['name'],
+            style: TextStyle(fontSize: nFontSize(30)),
+          ),
+        ),
         children: list.map((f) => _subItemBuilder(context, f, index)).toList(),
       );
     }
@@ -64,7 +84,8 @@ class DiscoverPage extends StatelessWidget {
           Routes.navigateTo(context, Routes.lotteryDetailPage,
               params: {'dataStr': convert.jsonEncode(data)});
         } else if (index == 1) {
-          Routes.navigateTo(context, Routes.qrcodeDetailpage,params: {'type': data['type'].toString()});
+          Routes.navigateTo(context, Routes.qrcodeDetailpage,
+              params: {'type': data['type'].toString()});
         }
       },
       child: Container(
