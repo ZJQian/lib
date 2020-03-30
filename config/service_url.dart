@@ -15,4 +15,4 @@ String qrcodeSingle = baseUrlMxnzp + "/qrcode/create/single";
 //带logo二维码
 String qrcodeLogo = baseUrlMxnzp + "/qrcode/create/logo";
 //福利
-String welfare = baseUrlMxnzp + "/image/girl/list/random";
+String welfare = baseUrlMxnzp + "/image/girl/list";

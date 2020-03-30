@@ -7,6 +7,7 @@ import 'provide/currentIndex_provide.dart';
 import 'provide/home/search_provide.dart';
 import 'provide/home/lottery_provide.dart';
 import 'provide/discover/qrcode_provide.dart';
+import 'provide/discover/welfare_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routes/routes.dart';
 import 'routes/application.dart';
@@ -18,6 +19,7 @@ void main() {
   var qrcodeProvide = QrcodeProvide();
   var settingsProvide = SettingsProvide();
   var appThemeProvide = AppThemeProvide();
+  var welfareProvide = WelfareProvide();
   var providers = Providers();
   providers.provide(Provider<AppThemeProvide>.value(appThemeProvide));
   providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
@@ -25,6 +27,7 @@ void main() {
   providers.provide(Provider<LotteryProvide>.value(lotteryProvide));
   providers.provide(Provider<QrcodeProvide>.value(qrcodeProvide));
   providers.provide(Provider<SettingsProvide>.value(settingsProvide));
+  providers.provide(Provider<WelfareProvide>.value(welfareProvide));
 
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
