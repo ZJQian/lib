@@ -10,7 +10,6 @@ import 'package:provide/provide.dart';
 import '../provide/currentIndex_provide.dart';
 
 class IndexPage extends StatelessWidget {
-
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), title: Text("首页")),
     BottomNavigationBarItem(

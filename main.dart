@@ -8,11 +8,14 @@ import 'provide/home/search_provide.dart';
 import 'provide/home/lottery_provide.dart';
 import 'provide/discover/qrcode_provide.dart';
 import 'provide/discover/welfare_provide.dart';
+import 'provide/login/login_provide.dart';
 import 'package:fluro/fluro.dart';
 import 'routes/routes.dart';
 import 'routes/application.dart';
+import './pages/login/login_page.dart';
 
 void main() {
+  var loginProvide = LoginProvide();
   var currentIndexProvide = CurrentIndexProvide();
   var searchTextProvide = SearchProvide();
   var lotteryProvide = LotteryProvide();
@@ -21,6 +24,7 @@ void main() {
   var appThemeProvide = AppThemeProvide();
   var welfareProvide = WelfareProvide();
   var providers = Providers();
+  providers.provide(Provider<LoginProvide>.value(loginProvide));
   providers.provide(Provider<AppThemeProvide>.value(appThemeProvide));
   providers.provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
   providers.provide(Provider<SearchProvide>.value(searchTextProvide));
@@ -43,10 +47,12 @@ class MyApp extends StatelessWidget {
     return Provide<AppThemeProvide>(
       builder: (context, child, provide) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           onGenerateRoute: Application.router.generator,
           theme: Provide.value<AppThemeProvide>(context).themeData,
           home: IndexPage(),
+          // home: LoginPage(),
         );
       },
     );
