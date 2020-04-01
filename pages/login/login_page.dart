@@ -10,7 +10,6 @@ import 'login_box.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('build');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(

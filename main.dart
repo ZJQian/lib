@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           onGenerateRoute: Application.router.generator,
           theme: Provide.value<AppThemeProvide>(context).themeData,
-          home: IndexPage(),
-          // home: LoginPage(),
+          // home: IndexPage(),
+          home: LoginPage(),
         );
       },
     );

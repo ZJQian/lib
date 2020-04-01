@@ -23,8 +23,8 @@ class LoginProvide extends State<StatefulWidget>
   ];
   Timer interval;
 
-  // Color btnColor;
-  // bool btnEnable;
+  Color btnColor;
+  bool btnEnable;
 
   LoginProvide() {
     controller =
@@ -61,17 +61,17 @@ class LoginProvide extends State<StatefulWidget>
     super.dispose();
   }
 
-  // judgeBtnStatus(TextEditingController accountController,
-  //     TextEditingController pwdController) {
-  //   if (accountController.text.length >= 6 && pwdController.text.length >= 6) {
-  //     btnColor = ColorManager.colorAppTheme(context);
-  //     btnEnable = true;
-  //   } else {
-  //     btnColor = Colors.grey;
-  //     btnEnable = false;
-  //   }
-  //   notifyListeners();
-  // }
+  judgeBtnStatus(TextEditingController accountController,
+      TextEditingController pwdController) {
+    if (accountController.text.length >= 6 && pwdController.text.length >= 6) {
+      btnColor = ColorManager.colorAppTheme(context);
+      btnEnable = true;
+    } else {
+      btnColor = Colors.grey;
+      btnEnable = false;
+    }
+    notifyListeners();
+  }
 
   @override
   Widget build(BuildContext context) {

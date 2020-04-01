@@ -2,13 +2,23 @@ import 'dart:core';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_project/config/color_config.dart';
 import 'package:flutter_project/config/device_config.dart';
+import 'package:flutter_project/config/tool.dart';
 import 'package:flutter_project/provide/login/login_provide.dart';
 import 'package:provide/provide.dart';
 
-class LoginBox extends StatelessWidget {
+class LoginBox extends StatefulWidget {
+  @override
+  _LoginBoxState createState() => _LoginBoxState();
+}
+
+class _LoginBoxState extends State<LoginBox> with TickerProviderStateMixin {
   final TextEditingController accountController = TextEditingController();
   final TextEditingController pwdController = TextEditingController();
+  Color btnColor = Colors.grey;
+  bool btnEnable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +48,79 @@ class LoginBox extends StatelessWidget {
                   title: "账号/手机号",
                 ),
                 LoginTextFiled(
-                    controller: accountController,
-                    width: w,
-                    obscureText: false,
-                    icon: Icon(
-                      Icons.face,
-                      size: rpxWidth(context, 40),
-                    ),
-                    hintText: "请输入账号/手机号"),
+                  controller: accountController,
+                  width: w,
+                  obscureText: false,
+                  maxLength: 11,
+                  icon: Icon(
+                    Icons.face,
+                    size: rpxWidth(context, 40),
+                  ),
+                  hintText: "请输入账号/手机号",
+                  onValueChanged: () {
+                    this.judgeBtnStatus(
+                        context, accountController.text, pwdController.text);
+                  },
+                ),
                 LoginTitle(
                   title: "密码",
                 ),
                 LoginTextFiled(
-                    controller: pwdController,
-                    width: w,
-                    obscureText: true,
-                    icon: Icon(
-                      Icons.lock,
-                      size: rpxWidth(context, 40),
+                  controller: pwdController,
+                  width: w,
+                  obscureText: true,
+                  maxLength: 15,
+                  icon: Icon(
+                    Icons.lock,
+                    size: rpxWidth(context, 40),
+                  ),
+                  hintText: "请输入密码",
+                  onValueChanged: () {
+                    this.judgeBtnStatus(
+                        context, accountController.text, pwdController.text);
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft:
+                                        Radius.circular(rpxWidth(context, 40)),
+                                    topRight: Radius.circular(
+                                        rpxWidth(context, 40)))),
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: rpxWidth(context, 750),
+                                padding: EdgeInsets.all(rpxWidth(context, 40)),
+                                child: RegisterAgreement(),
+                              );
+                            });
+                      },
+                      child: Text(
+                        '立即注册',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: rpxFontSize(context, 35),
+                            fontFamily: 'zhushi-Medium'),
+                      ),
                     ),
-                    hintText: "请输入密码"),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text(
+                        '忘记密码',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: rpxFontSize(context, 35),
+                            fontFamily: 'zhushi-Medium'),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -66,13 +129,15 @@ class LoginBox extends StatelessWidget {
             width: w,
             height: rpxWidth(context, 90),
             child: RaisedButton(
-              onPressed: () {
-                print("account ===> ${accountController.text}");
-                print("pwd ===> ${pwdController.text}");
-              },
+              onPressed: btnEnable
+                  ? () {
+                      print("account ===> ${accountController.text}");
+                      print("pwd ===> ${pwdController.text}");
+                    }
+                  : null,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(rpxWidth(context, 20))),
-              color: Colors.blue,
+              color: btnColor,
               child: Text(
                 '登录',
                 style: TextStyle(
@@ -85,6 +150,20 @@ class LoginBox extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void judgeBtnStatus(BuildContext context, String account, String pwd) {
+    if (account.length >= 11 && pwd.length >= 6) {
+      setState(() {
+        btnColor = ColorManager.colorAppTheme(context);
+        btnEnable = true;
+      });
+    } else {
+      setState(() {
+        btnColor = Colors.grey;
+        btnEnable = false;
+      });
+    }
   }
 }
 
@@ -106,29 +185,142 @@ class LoginTitle extends StatelessWidget {
 class LoginTextFiled extends StatelessWidget {
   LoginTextFiled(
       {Key key,
-      @required this.controller,
+      this.controller,
       this.width,
       this.obscureText,
+      this.maxLength,
       this.icon,
-      this.hintText})
+      this.hintText,
+      this.onValueChanged})
       : super(key: key);
   final TextEditingController controller;
   final double width;
   final bool obscureText;
+  final int maxLength;
   final Icon icon;
   final String hintText;
+  final VoidCallback onValueChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       child: TextField(
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.done,
-          decoration: InputDecoration(
-              border: InputBorder.none, icon: icon, hintText: hintText),
-          style: TextStyle(fontSize: rpxFontSize(context, 30))),
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+            border: InputBorder.none, icon: icon, hintText: hintText),
+        inputFormatters: <TextInputFormatter>[
+          LengthLimitingTextInputFormatter(maxLength),
+        ],
+        style: TextStyle(fontSize: rpxFontSize(context, 35)),
+        onChanged: (text) {
+          onValueChanged();
+        },
+      ),
+    );
+  }
+}
+
+class RegisterAgreement extends StatefulWidget {
+  @override
+  _RegisterAgreementState createState() => _RegisterAgreementState();
+}
+
+class _RegisterAgreementState extends State<RegisterAgreement>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+  Animation _animation;
+  int index = 0;
+  Color foregroundColor = Colors.white10;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 700));
+    _animation = CurvedAnimation(
+            parent: _animationController, curve: Curves.easeInOutBack)
+        .drive(Tween<double>(begin: 260, end: 30))
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              setState(() {
+                index = 1;
+                foregroundColor = Colors.white70;
+              });
+              Future.delayed(Duration(milliseconds: 600), () {
+                Navigator.pop(context);
+              });
+            }
+          });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            AnimatedContainer(
+              foregroundDecoration: BoxDecoration(color: foregroundColor),
+              duration: Duration(milliseconds: 200),
+              child: Column(
+                children: <Widget>[
+                  Text('注册协议',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: rpxFontSize(context, 40))),
+                  SizedBox(
+                    height: rpxWidth(context, 30),
+                  ),
+                  Text(
+                      '当您开始下载、安装、使用、注册、登录乱炖，或使用乱炖相关服务时，即表示您已充分阅读、理解并接受本协议的全部内容，并与乱炖达成一致，成为乱炖“用户”。',
+                      style: TextStyle(fontSize: rpxFontSize(context, 30))),
+                  SizedBox(
+                    height: rpxWidth(context, 30),
+                  ),
+                ],
+              ),
+            ),
+            IndexedStack(
+              alignment: Alignment.center,
+              index: index,
+              children: <Widget>[
+                Container(
+                  width: _animation.value,
+                  height: 30,
+                  child: RaisedButton(
+                    color: Colors.blue,
+                    onPressed: () {
+                      _animationController.forward();
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Text('同意并继续'),
+                  ),
+                ),
+                Container(
+                  width: 30,
+                  height: 30,
+                  child: Image.asset(
+                    'lib/images/login/border-success.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }
