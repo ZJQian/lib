@@ -210,7 +210,12 @@ class LoginTextFiled extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-            border: InputBorder.none, icon: icon, hintText: hintText),
+            border: InputBorder.none,
+            icon: icon,
+            hintText: hintText,
+            hintStyle: TextStyle(
+                fontFamily: 'zhushi-Medium',
+                fontSize: rpxFontSize(context, 35))),
         inputFormatters: <TextInputFormatter>[
           LengthLimitingTextInputFormatter(maxLength),
         ],
