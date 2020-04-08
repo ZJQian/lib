@@ -1,102 +1,92 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_project/provide/discover/qrcode_provide.dart';
-import '../config/device_config.dart';
-import '../routes/routes.dart';
-import 'dart:convert' as convert;
+import 'dart:convert';
 
-class DiscoverPage extends StatelessWidget {
-  final List<Map<String, dynamic>> dataList = [
-    {
-      'name': '彩票',
-      'list': [
-        {'name': '双色球', 'type': 'ssq'},
-        {'name': '七乐彩', 'type': 'qlc'},
-        {'name': '福彩3D', 'type': 'fc3d'},
-        {'name': '超级大乐透', 'type': 'cjdlt'},
-        {'name': '七星彩', 'type': 'qxc'},
-        {'name': '排列3', 'type': 'pl3'},
-        {'name': '排列5', 'type': 'pl5'},
-      ]
-    },
-    {
-      'name': '二维码',
-      'list': [
-        {'name': '普通二维码', 'type': 'single'},
-        {'name': '带logo二维码', 'type': 'logo'}
-      ]
-    },
-    {'name': '福利','type': 'welfare'}
-  ];
+import 'package:flutter/material.dart';
+import 'package:flutter_project/model/discover/movie_model.dart';
+import 'package:flutter_project/pages/discover/movie_detail_page.dart';
+import 'package:flutter_project/routes/routes.dart';
+import 'package:flutter_project/service/service_method.dart';
+import '../config/service_url.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../config/device_config.dart';
+
+class DiscoverPage extends StatefulWidget {
+  @override
+  _DiscoverPageState createState() => _DiscoverPageState();
+}
+
+class _DiscoverPageState extends State<DiscoverPage> {
+  MovieModel movieModel;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("小工具"),
-      ),
-      body: ListView.builder(
-        itemCount: dataList.length,
-        itemBuilder: (context, index) {
-          return _itemBuilder(context, dataList[index], index);
-        },
-      ),
-    );
-  }
-
-  Widget _itemBuilder(
-      BuildContext context, Map<String, dynamic> data, int index) {
-    List list = data['list'];
-    if (list == null) {
-      return InkWell(
-          onTap: () {
-            if (data['type'] == 'welfare') {
-              Routes.navigateTo(context, Routes.welfarePage);
-            }
-          },
-          child: Container(
-            width: screenWidth,
-            padding: EdgeInsets.all(nWidth(30)),
-            child: Text(
-              data['name'],
-              style: TextStyle(fontSize: nFontSize(30)),
-            ),
-          ));
-    } else {
-      return ExpansionTile(
-        title: Container(
-          width: screenWidth,
-          child: Text(
-            data['name'],
-            style: TextStyle(fontSize: nFontSize(30)),
-          ),
+        appBar: AppBar(
+          title: Text('电影🎬'),
         ),
-        children: list.map((f) => _subItemBuilder(context, f, index)).toList(),
-      );
-    }
+        body: movieModel == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: nWidth(270.0) / nWidth(450.0),
+                children: movieModel.subjects
+                    .map((itemModel) => InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MovieDetailPage(
+                                          movieItemModel: itemModel,
+                                        )));
+                          },
+                          child: Card(
+                            margin: EdgeInsets.all(nWidth(20)),
+                            child: Column(
+                              children: <Widget>[
+                                Hero(
+                                  tag: itemModel.title,
+                                  child: Container(
+                                    width: nWidth(335),
+                                    height: nWidth(335 * 400 / 270.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(nWidth(20)),
+                                          topRight:
+                                              Radius.circular(nWidth(20))),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: itemModel.images.small,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: nWidth(30),
+                                ),
+                                Text(itemModel.title,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: nFontSize(30)))
+                              ],
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ));
   }
 
-  Widget _subItemBuilder(
-      BuildContext context, Map<String, String> data, int index) {
-    return InkWell(
-      onTap: () {
-        if (index == 0) {
-          Routes.navigateTo(context, Routes.lotteryDetailPage,
-              params: {'dataStr': convert.jsonEncode(data)});
-        } else if (index == 1) {
-          Routes.navigateTo(context, Routes.qrcodeDetailpage,
-              params: {'type': data['type'].toString()});
-        }
-      },
-      child: Container(
-        width: screenWidth,
-        margin: EdgeInsets.only(left: nWidth(60)),
-        padding: EdgeInsets.only(
-            top: nWidth(20), bottom: nWidth(20), right: nWidth(20)),
-        child: Text(data['name']),
-        decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: Colors.black12, width: 1))),
-      ),
-    );
+  void getData() async {
+    await get(doubanTop250).then((val) {
+      movieModel = MovieModel.fromJson(val);
+    });
+    setState(() {});
   }
 }

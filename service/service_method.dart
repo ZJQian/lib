@@ -15,10 +15,10 @@ Future request(url, methodType, {Map formData}) async {
     Dio dio = new Dio();
     dio.options.contentType =
         ContentType.parse("application/x-www-form-urlencoded").toString();
-    dio.options.headers = {
-      "app_id": "qgmkqmgifdrhrlkj",
-      "app_secret": "VVRQU1BrTTdEcWdDTGM1VklkUUs3UT09"
-    };
+    // dio.options.headers = {
+    //   "app_id": "qgmkqmgifdrhrlkj",
+    //   "app_secret": "VVRQU1BrTTdEcWdDTGM1VklkUUs3UT09",
+    // };
     var params = await RequestConfig()._defaultParams();
 
     if (methodType == MethodType.POST) {
@@ -68,6 +68,7 @@ class RequestConfig {
     // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     Map<String, dynamic> params = {};
+    params['apikey'] = "0b2bdeda43b5688921839c8ecb20399b";
     // params["device_id"] = "FFF9922C-473A-4AF7-9784-A81022401647";
     // params["target"] = "U17_3.0";
     // params["android_id"] = "iphone";

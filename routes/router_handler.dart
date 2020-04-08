@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:flutter_project/model/discover/movie_model.dart';
+import 'package:flutter_project/pages/discover/movie_detail_page.dart';
 import 'package:flutter_project/pages/discover/welfare_page.dart';
 import 'package:flutter_project/pages/user/settings/settings_page.dart';
 import 'package:flutter_project/pages/user/settings/theme_page.dart';
@@ -34,18 +36,18 @@ Handler lotteryDetailHandler = Handler(
 //二维码
 Handler qrcodeHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-
   String type = params['type']?.first;
   QrcodeType codeType = QrcodeType.single;
   if (type == 'single') {
     codeType = QrcodeType.single;
-  }else {
+  } else {
     codeType = QrcodeType.logo;
   }
-  
-  return QrCodeDetailPage(qrcodeType: codeType,);
-});
 
+  return QrCodeDetailPage(
+    qrcodeType: codeType,
+  );
+});
 
 //设置
 Handler settingsHandler = Handler(
@@ -63,4 +65,13 @@ Handler themeHandler = Handler(
 Handler welfareHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return WelfarePage();
+});
+
+//电影详情
+Handler movieDetailHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String modelJson = params['model'].first;
+  print(modelJson);
+  MovieItemModel model = MovieItemModel.fromJson(convert.jsonDecode(modelJson));
+  return MovieDetailPage(movieItemModel: model);
 });

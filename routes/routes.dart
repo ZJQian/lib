@@ -13,6 +13,7 @@ class Routes {
   static String settingsPage = '/settingsPage'; //设置页面
   static String themePage = '/themePage'; //皮肤页面
   static String welfarePage = '/welfarePage'; //福利页面
+  static String movieDetailPage = '/movieDetailPage'; //电影详情页面
 
   //静态方法
   static void configureRoutes(Router router) {
@@ -32,6 +33,7 @@ class Routes {
     router.define(settingsPage, handler: settingsHandler);
     router.define(themePage, handler: themeHandler);
     router.define(welfarePage, handler: welfareHandler);
+    router.define(movieDetailPage, handler: movieDetailHandler);
   }
 
   //路由跳转

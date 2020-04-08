@@ -6,8 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_project/config/color_config.dart';
 import 'package:flutter_project/config/device_config.dart';
 import 'package:flutter_project/config/tool.dart';
+import 'package:flutter_project/pages/login/register_box.dart';
 import 'package:flutter_project/provide/login/login_provide.dart';
 import 'package:provide/provide.dart';
+
+import '../index_page.dart';
 
 class LoginBox extends StatefulWidget {
   @override
@@ -20,6 +23,13 @@ class _LoginBoxState extends State<LoginBox> with TickerProviderStateMixin {
   Color btnColor = Colors.grey;
   bool btnEnable = false;
 
+  int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double margin = rpxWidth(context, 40);
@@ -28,124 +38,150 @@ class _LoginBoxState extends State<LoginBox> with TickerProviderStateMixin {
     return BackdropFilter(
       filter: ImageFilter.blur(
           sigmaX: rpxWidth(context, 8), sigmaY: rpxWidth(context, 8)),
-      child: Column(
+      child: IndexedStack(
+        index: index,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.3),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: rpxWidth(context, 20), color: Colors.black12)
-                ],
-                borderRadius: BorderRadius.circular(rpxWidth(context, 20))),
-            width: w,
-            margin: EdgeInsets.symmetric(horizontal: margin),
-            padding: EdgeInsets.all(rpxWidth(context, 30)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                LoginTitle(
-                  title: "账号/手机号",
-                ),
-                LoginTextFiled(
-                  controller: accountController,
-                  width: w,
-                  obscureText: false,
-                  maxLength: 11,
-                  icon: Icon(
-                    Icons.face,
-                    size: rpxWidth(context, 40),
-                  ),
-                  hintText: "请输入账号/手机号",
-                  onValueChanged: () {
-                    this.judgeBtnStatus(
-                        context, accountController.text, pwdController.text);
-                  },
-                ),
-                LoginTitle(
-                  title: "密码",
-                ),
-                LoginTextFiled(
-                  controller: pwdController,
-                  width: w,
-                  obscureText: true,
-                  maxLength: 15,
-                  icon: Icon(
-                    Icons.lock,
-                    size: rpxWidth(context, 40),
-                  ),
-                  hintText: "请输入密码",
-                  onValueChanged: () {
-                    this.judgeBtnStatus(
-                        context, accountController.text, pwdController.text);
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: rpxWidth(context, 20),
+                          color: Colors.black12)
+                    ],
+                    borderRadius: BorderRadius.circular(rpxWidth(context, 20))),
+                width: w,
+                margin: EdgeInsets.symmetric(horizontal: margin),
+                padding: EdgeInsets.all(rpxWidth(context, 30)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft:
-                                        Radius.circular(rpxWidth(context, 40)),
-                                    topRight: Radius.circular(
-                                        rpxWidth(context, 40)))),
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: rpxWidth(context, 750),
-                                padding: EdgeInsets.all(rpxWidth(context, 40)),
-                                child: RegisterAgreement(),
-                              );
-                            });
-                      },
-                      child: Text(
-                        '立即注册',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: rpxFontSize(context, 35),
-                            fontFamily: 'zhushi-Medium'),
-                      ),
+                    LoginTitle(
+                      title: "账号/手机号",
                     ),
-                    FlatButton(
-                      onPressed: () {},
-                      child: Text(
-                        '忘记密码',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: rpxFontSize(context, 35),
-                            fontFamily: 'zhushi-Medium'),
+                    LoginTextFiled(
+                      controller: accountController,
+                      width: w,
+                      obscureText: false,
+                      maxLength: 11,
+                      icon: Icon(
+                        Icons.face,
+                        size: rpxWidth(context, 40),
                       ),
+                      hintText: "请输入账号/手机号",
+                      onValueChanged: () {
+                        this.judgeBtnStatus(context, accountController.text,
+                            pwdController.text);
+                      },
+                    ),
+                    LoginTitle(
+                      title: "密码",
+                    ),
+                    LoginTextFiled(
+                      controller: pwdController,
+                      width: w,
+                      obscureText: true,
+                      maxLength: 15,
+                      icon: Icon(
+                        Icons.lock,
+                        size: rpxWidth(context, 40),
+                      ),
+                      hintText: "请输入密码",
+                      onValueChanged: () {
+                        this.judgeBtnStatus(context, accountController.text,
+                            pwdController.text);
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(
+                                            rpxWidth(context, 40)),
+                                        topRight: Radius.circular(
+                                            rpxWidth(context, 40)))),
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    width: rpxWidth(context, 750),
+                                    padding:
+                                        EdgeInsets.all(rpxWidth(context, 40)),
+                                    child: RegisterAgreement(
+                                      onAccept: () {
+                                        setState(() {
+                                          index = 1;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text(
+                            '立即注册',
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: rpxFontSize(context, 35),
+                                fontFamily: 'zhushi-Medium'),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text(
+                            '忘记密码',
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: rpxFontSize(context, 35),
+                                fontFamily: 'zhushi-Medium'),
+                          ),
+                        )
+                      ],
                     )
                   ],
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: rpxWidth(context, 60)),
-            width: w,
-            height: rpxWidth(context, 90),
-            child: RaisedButton(
-              onPressed: btnEnable
-                  ? () {
-                      print("account ===> ${accountController.text}");
-                      print("pwd ===> ${pwdController.text}");
-                    }
-                  : null,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(rpxWidth(context, 20))),
-              color: btnColor,
-              child: Text(
-                '登录',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: rpxFontSize(context, 35),
-                    fontFamily: 'zhushi-Medium'),
+                ),
               ),
-            ),
+              Container(
+                width: w,
+                margin: EdgeInsets.only(top: rpxWidth(context, 60)),
+                height: rpxWidth(context, 90),
+                child: RaisedButton(
+                  onPressed: btnEnable
+                      ? () {
+                          print("account ===> ${accountController.text}");
+                          print("pwd ===> ${pwdController.text}");
+
+                          Navigator.of(context).pushAndRemoveUntil(
+                              new MaterialPageRoute(
+                                  builder: (context) => new IndexPage()),
+                              (route) => route == null);
+                        }
+                      : null,
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(rpxWidth(context, 20))),
+                  color: btnColor,
+                  child: Text(
+                    '登录',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: rpxFontSize(context, 35),
+                        fontFamily: 'zhushi-Medium'),
+                  ),
+                ),
+              )
+            ],
+          ),
+          RegisterBox(
+            onLogin: () {
+              setState(() {
+                index = 0;
+              });
+            },
           )
         ],
       ),
@@ -229,6 +265,9 @@ class LoginTextFiled extends StatelessWidget {
 }
 
 class RegisterAgreement extends StatefulWidget {
+  RegisterAgreement({Key key, this.onAccept}) : super(key: key);
+  final VoidCallback onAccept;
+
   @override
   _RegisterAgreementState createState() => _RegisterAgreementState();
 }
@@ -256,6 +295,7 @@ class _RegisterAgreementState extends State<RegisterAgreement>
               });
               Future.delayed(Duration(milliseconds: 600), () {
                 Navigator.pop(context);
+                widget.onAccept();
               });
             }
           });
